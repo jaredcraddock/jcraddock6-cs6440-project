@@ -23,14 +23,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-     path('/home', home_view, name="home"),
+    path('home/', home_view, name="home"),
     path('user/', include('django.contrib.auth.urls')), # new
     path('', RegisterView.as_view(), name='register'),
-
-
-
-
-
-
     path('admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
