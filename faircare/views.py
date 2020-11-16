@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from fhirclient import client
-import fhirclient.models.procedure as p
+import fhirclient.models.procedure as proced
 import fhirclient.models.medication as med
 from django.template import loader
 from django.http import HttpResponse
@@ -31,10 +31,13 @@ def home_view(request):
         m.as_json()
 
 
+
+
+
     template = loader.get_template('home.html')
 
     context = {
-        'medications': len(medications)
+        'medications': medications
 
     }
 

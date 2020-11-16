@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = os.getenv('SECRET_KEY', '')
+SECRET_KEY = os.getenv('SECRET_KEY', 'v%n)+=&#)o8ptt!!=8k)0&gt3kvtoub4qe-6fdm373foq+#umf')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -131,6 +131,6 @@ STATICFILES_DIRS = [
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/home'
 django_heroku.settings(locals())
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)

@@ -23,10 +23,9 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('/', home_view, name="home"),
-    path('', home_view, name="home"),
+     path('/home', home_view, name="home"),
     path('user/', include('django.contrib.auth.urls')), # new
-    path('user/register/', RegisterView.as_view(), name='register'),
+    path('', RegisterView.as_view(), name='register'),
 
 
 
