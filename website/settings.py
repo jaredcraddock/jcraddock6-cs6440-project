@@ -133,4 +133,5 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/home'
 django_heroku.settings(locals())
+
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
