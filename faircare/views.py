@@ -33,7 +33,7 @@ def home_view(request):
 
     for m in medications:
         m.as_json()
-        # Medication.objects.create(medicine_name=m.code.text)
+        Medication.objects.create(medicine_name=m.code.text)
 
 
 
