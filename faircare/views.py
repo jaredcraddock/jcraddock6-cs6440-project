@@ -87,10 +87,8 @@ def home_view(request):
     return HttpResponse(template.render(context, request))
 
 def medicine_data_view(request):
-    #Book.objects.all().aggregate(Avg('price'))
-
     medication = request.GET["medication"]
-    return JsonResponse(list(MedicationPrice.objects.filter(medicine_name_id=medication).values('state').order_by('state').annotate(price=Avg(float('price')))), safe=False)
+    return JsonResponse(list(MedicationPrice.objects.filter(medicine_name_id=medication).values('state').order_by('state').annotate(price=Avg('price'))), safe=False)
 
 
 
