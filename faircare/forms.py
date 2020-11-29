@@ -5,7 +5,7 @@ from localflavor.us.forms import USStateSelect
 
 class MedicationViewForm(forms.Form):
 
-    medication = forms.ModelChoiceField(queryset=Medication.objects.all())
+    medication = forms.ModelChoiceField(queryset=Medication.objects.distinct('medicine_name'))
 
 
     def __init__(self, *args, **kwargs):
@@ -17,7 +17,7 @@ class MedicationViewForm(forms.Form):
 
 class MedicationDataSubmitForm(forms.Form):
 
-    medication = forms.ModelChoiceField(queryset=Medication.objects.all())
+    medication = forms.ModelChoiceField(queryset=Medication.objects.distinct('medicine_name'))
 
 
 
