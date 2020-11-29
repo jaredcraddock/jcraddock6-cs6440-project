@@ -6,7 +6,7 @@ from localflavor.us.us_states import US_STATES
 class MedicationViewForm(forms.Form):
 
     #medication_view = forms.ModelChoiceField(queryset=Medication.objects.all())
-    medication = forms.ModelChoiceField(queryset=Medication.objects.distinct('medicine_name'))
+    medication_view = forms.ModelChoiceField(queryset=Medication.objects.distinct('medicine_name'))
 
     def __init__(self, *args, **kwargs):
         super(MedicationViewForm, self).__init__(*args, **kwargs)
