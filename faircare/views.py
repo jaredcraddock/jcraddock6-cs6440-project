@@ -1,16 +1,20 @@
 from django.shortcuts import render
 from fhirclient import client
-import fhirclient.models.procedure as proced
 import fhirclient.models.medication as med
 from django.template import loader
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
-from .models import ProcedurePrice, MedicationPrice, Medication
-from .forms import MedicationDataSubmitForm, ProcedureDataSubmitForm, MedicationViewForm
+from .models import MedicationPrice, Medication
+from .forms import MedicationDataSubmitForm, MedicationViewForm
 from django.core import serializers
 from django.db.models import Avg
+from django.contrib import messages
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+
 # Create your views here.
 
 
@@ -21,6 +25,10 @@ class RegisterView(generic.CreateView):
     template_name = 'registration/signup.html'
 
 def home_view(request):
+
+    if not request.user.is_authenticated:
+        return redirect('/')
+
 
     settings = {
         'app_id': 'faircare',
@@ -34,7 +42,6 @@ def home_view(request):
     for m in medications:
         m.as_json()
         # Medication.objects.create(medicine_name=m.code.text)
-
 
 
     template = loader.get_template('home.html')
@@ -52,34 +59,27 @@ def home_view(request):
                 price=medication_submit_form.cleaned_data.get(
                 'medication_price'), state=medication_submit_form.cleaned_data.get(
                 'medication_state'))
+            messages.success(request, 'Medication Data Submitted Successfully.')
             medication_submit.save()
 
 
 
 
-    # procedure_submit_form = ProcedureDataSubmitForm()
-    # if request.method == 'POST':
-    #
-    #
-    #
-    #     procedure_submit = ProcedurePrice(procedure_name=request.procedure_name, procedure_price=request.procedure_price,city=request.city)
-    #     procedure_submit.save()
 
     medication_view_form = MedicationViewForm()
-    medication =""
-    if request.method == 'POST':
+    medication_view =""
+    if request.method == 'POST' and 'medication_view' in request.POST:
         medication_view_form = MedicationViewForm(request.POST)
 
         if medication_view_form.is_valid():
-            medication=medication_view_form['medication'].value()
+            medication_view=medication_view_form['medication_view'].value()
 
 
     context = {
         'medications': medications,
         'medication_submit_form': medication_submit_form,
         'medication_view_form': medication_view_form,
-        'medication':medication
-        # 'procedure_submit_form': procedure_submit_form
+        'medication_view':medication_view,
 
     }
 
@@ -87,10 +87,13 @@ def home_view(request):
     return HttpResponse(template.render(context, request))
 
 def medicine_data_view(request):
-    medication = request.GET["medication"]
+    medication = request.GET["medication_view"]
     return JsonResponse(list(MedicationPrice.objects.filter(medicine_name_id=medication).values('state').order_by('state').annotate(price=Avg('price'))), safe=False)
 
 
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 
 

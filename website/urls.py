@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include
 from django.conf.urls import url
-from faircare.views import home_view, RegisterView, medicine_data_view
+from faircare.views import home_view, RegisterView, medicine_data_view, logout_view
 from django.conf.urls.static import static
 from django.conf import settings
 
 
 urlpatterns = [
     path('home/', home_view, name="home"),
+    path('logout/', logout_view, name="logout"),
     path('medicine_data/', medicine_data_view, name="medicine_data"),
     path('user/', include('django.contrib.auth.urls')), # new
     path('', RegisterView.as_view(), name='register'),
